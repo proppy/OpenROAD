@@ -44,3 +44,6 @@ jobs:
         # value equal to 'true'.
         force: ${{ github.event.inputs.force || (secrets.UPSTREAM_SYNC == 'always overwrite master branch') }}
         deployKey: ${{ secrets.DEPLOY_KEY }}
+
+  Release-From-HEAD:
+    uses: ./.github/workflows/github-actions-cron-release-from-head.yml
