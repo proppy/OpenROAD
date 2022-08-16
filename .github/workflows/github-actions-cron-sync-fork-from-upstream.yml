@@ -47,3 +47,5 @@ jobs:
 
   Release-From-HEAD:
     uses: ./.github/workflows/github-actions-cron-release-from-head.yml
+    secrets:
+      DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}

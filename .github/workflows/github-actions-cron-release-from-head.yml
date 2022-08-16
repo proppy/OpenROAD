@@ -37,13 +37,12 @@ jobs:
           echo "TAG=$TAG" >> $GITHUB_ENV
         else
           echo "Existing TAG: $TAG_EXISTS"
-          exit 1
         fi
         
     - name: Apply and push TAG
       env:
         HAS_DEPLOY_KEY: ${{ !!(secrets.DEPLOY_KEY) }}
-      if: ${{ env.HAS_DEPLOY_KEY == 'true' }}
+      if: ${{ env.HAS_DEPLOY_KEY == 'true' && env.TAG_EXISTS == '' }}
       run: |
         git config --local user.name "$BOT_USER"
         git config --local user.email "$BOT_EMAIL"
