@@ -1,12 +1,7 @@
 name: Automatically release from head.
 
 on:
-  schedule:
-  - cron: "*/5 * * * *"
-
-  workflow_dispatch:
-
-  repository_dispatch:
+  workflow_call:
 
 jobs:
   Release-From-HEAD:
