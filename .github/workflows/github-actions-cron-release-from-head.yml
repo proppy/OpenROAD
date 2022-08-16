@@ -1,0 +1,50 @@
+name: Automatically release from head.
+
+on:
+  schedule:
+  - cron: "*/5 * * * *"
+
+  workflow_dispatch:
+
+  repository_dispatch:
+
+jobs:
+  Release-From-HEAD:
+    name: Automatic release from 'HEAD'
+    runs-on: ubuntu-latest
+
+    # Only allow one action to run at a time.
+    concurrency: release-from-head
+
+    # Action needs no permissions, as push is granted via adding a deploy key
+    # with write access to the $DEPLOY_KEY secret.
+    permissions:
+      contents: read
+
+    # Only run on master branch.
+    if: endsWith(github.ref, '/master') }}
+
+    steps:
+
+    - uses: actions/checkout@v3
+      with:
+       # Download complete repository + tags
+       fetch-depth: 0
+
+    - name: Generate TAG
+      run: |
+        # Create a tag of form v0.0-183-gdf2b162        
+        TAG="${TAG:-$(git describe --match=v*)}"
+        TAG_EXISTS="$(git tag -l $TAG)"
+        echo "TAG=$TAG" >> $GITHUB_ENV
+        echo "TAG_EXISTS=$TAG_EXISTS" >> $GITHUB_ENV        
+        
+    - name: Apply and push TAG
+      env:
+        HAS_DEPLOY_KEY: ${{ !!(secrets.DEPLOY_KEY) }}
+      if: ${{ env.HAS_DEPLOY_KEY == 'true' && TAG_EXISTS == '' }}
+      run: |
+        git config --local user.name "$BOT_USER"
+        git config --local user.email "$BOT_EMAIL"
+        git tag "$TAG"
+        git push origin HEAD:refs/tags/$TAG"
