@@ -32,7 +32,12 @@ jobs:
         TAG="${TAG:-$(git describe --match=v*)}"
         TAG_EXISTS="$(git tag -l $TAG)"
         echo "TAG=$TAG" >> $GITHUB_ENV
-        echo "TAG_EXISTS=$TAG_EXISTS" >> $GITHUB_ENV        
+        echo "TAG_EXISTS=$TAG_EXISTS" >> $GITHUB_ENV
+        if [[ -z $TAG_EXISTS ]]; then
+          echo "Generated TAG: $TAG"
+        else
+          echo "Existing TAG: $TAG_EXISTS"
+        fi
         
     - name: Apply and push TAG
       env:
