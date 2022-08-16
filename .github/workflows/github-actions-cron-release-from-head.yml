@@ -19,13 +19,13 @@ jobs:
     - uses: actions/checkout@v3
       with:
        ref: master
-       fetch-depth: 1
 
     - name: Generate TAG
       run: |
-        git fetch --tags
+        # Fetch upstream tags
+        git fetch https://github.com/The-OpenROAD-Project/OpenROAD.git --tags
         # Create a tag of form v0.0-183-gdf2b162
-        TAG="${TAG:-$(git describe --match=v*)}"
+        TAG="${TAG:-$(git describe --tags --match=v*)}"
         TAG_EXISTS="$(git tag -l $TAG)"
         if [[ -z "$TAG_EXISTS" ]]; then
           echo "Generated TAG: $TAG"
