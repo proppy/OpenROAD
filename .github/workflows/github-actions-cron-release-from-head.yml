@@ -37,7 +37,7 @@ jobs:
     - name: Apply and push TAG
       env:
         HAS_DEPLOY_KEY: ${{ !!(secrets.DEPLOY_KEY) }}
-      if: ${{ env.HAS_DEPLOY_KEY == 'true' && TAG_EXISTS == '' }}
+      if: ${{ env.HAS_DEPLOY_KEY == 'true' && env.TAG_EXISTS == '' }}
       run: |
         git config --local user.name "$BOT_USER"
         git config --local user.email "$BOT_EMAIL"
