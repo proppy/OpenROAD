@@ -23,6 +23,7 @@ jobs:
 
     - uses: actions/checkout@v3
       with:
+       ref: master
        # Download complete repository + tags
        fetch-depth: 0
 
@@ -31,18 +32,18 @@ jobs:
         # Create a tag of form v0.0-183-gdf2b162        
         TAG="${TAG:-$(git describe --match=v*)}"
         TAG_EXISTS="$(git tag -l $TAG)"
-        echo "TAG=$TAG" >> $GITHUB_ENV
-        echo "TAG_EXISTS=$TAG_EXISTS" >> $GITHUB_ENV
         if [[ -z $TAG_EXISTS ]]; then
           echo "Generated TAG: $TAG"
+          echo "TAG=$TAG" >> $GITHUB_ENV
         else
           echo "Existing TAG: $TAG_EXISTS"
+          exit 1
         fi
         
     - name: Apply and push TAG
       env:
         HAS_DEPLOY_KEY: ${{ !!(secrets.DEPLOY_KEY) }}
-      if: ${{ env.HAS_DEPLOY_KEY == 'true' && env.TAG_EXISTS == '' }}
+      if: ${{ env.HAS_DEPLOY_KEY == 'true' }}
       run: |
         git config --local user.name "$BOT_USER"
         git config --local user.email "$BOT_EMAIL"
