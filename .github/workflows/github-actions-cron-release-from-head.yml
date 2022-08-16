@@ -11,9 +11,6 @@ jobs:
     # Only allow one action to run at a time.
     concurrency: release-from-head
 
-    permissions:
-      contents: read|write
-
     # Don't run on the upstream repository and only run on the right branch.
     if: ${{ (github.repository != 'The-OpenROAD-Project/OpenROAD') && endsWith(github.ref, '/sync') }}
 
