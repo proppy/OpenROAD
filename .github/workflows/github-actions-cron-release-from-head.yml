@@ -16,8 +16,8 @@ jobs:
     permissions:
       contents: read
 
-    # Only run on master branch.
-    if: endsWith(github.ref, '/master') }}
+    # Don't run on the upstream repository and only run on the right branch.
+    if: ${{ (github.repository != 'The-OpenROAD-Project/OpenROAD') && endsWith(github.ref, '/sync') }}
 
     steps:
 
