@@ -31,6 +31,7 @@ jobs:
           echo "TAG=$TAG" >> $GITHUB_ENV
         else
           echo "Existing TAG: $TAG_EXISTS"
+          echo "TAG_EXISTS=$TAG_EXISTS" >> $GITHUB_ENV          
         fi
         
     - name: Apply and push TAG
