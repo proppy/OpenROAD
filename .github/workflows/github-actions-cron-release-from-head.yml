@@ -35,7 +35,7 @@ jobs:
         # Create a tag of form v0.0-183-gdf2b162        
         TAG="${TAG:-$(git describe --match=v*)}"
         TAG_EXISTS="$(git tag -l $TAG)"
-        if [[ -z $TAG_EXISTS ]]; then
+        if [[ -z "$TAG_EXISTS" ]]; then
           echo "Generated TAG: $TAG"
           echo "TAG=$TAG" >> $GITHUB_ENV
         else
@@ -50,4 +50,4 @@ jobs:
         git config --local user.name "$BOT_USER"
         git config --local user.email "$BOT_EMAIL"
         git tag "$TAG"
-        git push origin HEAD:refs/tags/$TAG"
+        git push origin "HEAD:refs/tags/$TAG"
