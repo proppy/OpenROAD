@@ -2,7 +2,7 @@ name: Automatically sync branch from upstream.
 
 on:
   schedule:
-  - cron: "* * */1 * *"
+  - cron: "0 0 */7 * *"
 
   workflow_dispatch:
     inputs:
