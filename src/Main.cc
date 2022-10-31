@@ -114,9 +114,8 @@ FOREACH_TOOL(X)
 #undef X
 }  // namespace sta
 
-static void initPython(int argc, char *const *argv, int inspect)
+static void initPython(int argc, char* argv[], int inspect)
 {
-
 #define X(name)                                                             \
   if (PyImport_AppendInittab("_" #name "_py", PyInit__##name##_py) == -1) { \
     fprintf(stderr, "Error: could not add module _" #name "_py\n");         \
@@ -127,7 +126,7 @@ static void initPython(int argc, char *const *argv, int inspect)
 
   PyConfig config;
   PyConfig_InitPythonConfig(&config);
-  PyConfig_SetBytesArgv(&config, argc, argv); 
+  PyConfig_SetBytesArgv(&config, argc, argv);
   config.inspect = inspect;
   Py_InitializeFromConfig(&config);
   PyConfig_Clear(&config);
